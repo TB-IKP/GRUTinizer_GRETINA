@@ -1,0 +1,48 @@
+15c15
+< const int REBIN_FACTOR = 2; //8000 and 10000 must be evenly divisible by this number
+---
+> const int REBIN_FACTOR = 1; //8000 and 10000 must be evenly divisible by this number
+19c19
+<   return (4.532*pow(energy+100.,-0.621)*10.75/8.)*(1+TMath::TanH((energy-185.1)/82.5))/2;
+---
+>   return (4.532*pow(energy+100.,-0.621)*40/8.)*(1+TMath::TanH((energy-47.4)/5.3))/2;
+64c64
+<       bg->FixParameter(0,t->GetV1()[0]);
+---
+>       bg->SetParameter(0,t->GetV1()[0]);
+83c83
+<     bg->FixParameter(0,t->GetV1()[0]);
+---
+>     bg->SetParameter(0,t->GetV1()[0]);
+85c85
+<     bg->FixParameter(2,t->GetV1()[2]);
+---
+>     bg->SetParameter(2,t->GetV1()[2]);
+148d147
+<   //GH1D* data_hist((GH1D*)data_file->Get("Gretina_Ungated/CoreEnergy_det43"));
+238c237
+<       if(energies.at(i) == 1) {
+---
+>       if(energies.at(i) == 960 || energies.at(i) == 961) {
+404,408c403,405
+<       if(energies.at(i) != 1) {
+<         fit_hists.back()->Rebin(REBIN_FACTOR);
+<         fep_hists.back()->Rebin(REBIN_FACTOR);
+<         com_hists.back()->Rebin(REBIN_FACTOR); 
+<       }
+---
+>       fit_hists.back()->Rebin(REBIN_FACTOR);
+>       fep_hists.back()->Rebin(REBIN_FACTOR);
+>       com_hists.back()->Rebin(REBIN_FACTOR); 
+523c520
+<     bg = new TF1("exp_bg","([0]*TMath::Exp([1]*x))*(1+TMath::TanH((x-[2])/[3]))/2",0,10000);
+---
+>     bg = new TF1("exp_bg","([0]*TMath::Exp([1]*x))*(1+TMath::TanH((x-[2])/[3]))/2",0,4000);
+530c527
+<     bg = new TF1("exp_bg","([0]*TMath::Exp([1]*x)+[2]*TMath::Exp([3]*x))*(1+TMath::TanH((x-[4])/[5]))/2",0,10000);
+---
+>     bg = new TF1("exp_bg","([0]*TMath::Exp([1]*x)+[2]*TMath::Exp([3]*x))*(1+TMath::TanH((x-[4])/[5]))/2",0,4000);
+539c536
+<   bg->SetNpx(10000/REBIN_FACTOR);
+---
+>   bg->SetNpx(4000/REBIN_FACTOR);

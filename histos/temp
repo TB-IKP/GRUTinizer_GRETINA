@@ -1,0 +1,81 @@
+186c186
+<     if(!outgoing->IsInside(s800->GetTof().GetXFP() - s800->GetTof().GetOBJ() + s800->GetCorrTOF_OBJ(),s800->GetIonChamber().Charge()))
+---
+>     if(!outgoing->IsInside(s800->GetCorrTOF_XFP(),s800->GetIonChamber().Charge()))
+212c212
+<                     1000,-4000,4000,s800->GetTof().GetXFP() - s800->GetTof().GetOBJ() + s800->GetCorrTOF_OBJ());
+---
+>                     1000,-4000,4000,s800->GetCorrTOF_XFP());
+232c232
+<                   1000,-3000,3000,s800->GetTof().GetXFP() - s800->GetTof().GetOBJ() + s800->GetCorrTOF_OBJ(),
+---
+>                   1000,-3000,3000,s800->GetCorrTOF_XFP(),
+240c240
+<                   200,-1200,-1000,s800->GetTof().GetXFP() - s800->GetTof().GetOBJ() + s800->GetCorrTOF_OBJ(),
+---
+>                   200,-1200,-1000,s800->GetCorrTOF_XFP(),
+311c311
+< //obj.FillHistogram(dirname,Form("ATA%s",hsuf.c_str()),1000,-0.1,0.1,s800->GetAta());
+---
+>   obj.FillHistogram(dirname,Form("ATA%s",hsuf.c_str()),1000,-0.1,0.1,s800->GetAta());
+313c313
+< //obj.FillHistogram(dirname,Form("BTA%s",hsuf.c_str()),1000,-0.1,0.1,s800->GetBta());
+---
+>   obj.FillHistogram(dirname,Form("BTA%s",hsuf.c_str()),1000,-0.1,0.1,s800->GetBta());
+315,317c315,317
+< //obj.FillHistogram(dirname,Form("ATA_v_BTA%s",hsuf.c_str()),
+< //                  1000,-0.1,0.1,s800->GetBta(),
+< //		    1000,-0.1,0.1,s800->GetAta());
+---
+>   obj.FillHistogram(dirname,Form("ATA_v_BTA%s",hsuf.c_str()),
+>                     1000,-0.1,0.1,s800->GetBta(),
+>   		    1000,-0.1,0.1,s800->GetAta());
+319c319
+< //obj.FillHistogram(dirname,Form("DTA%s",hsuf.c_str()),1000,-0.5,0.5,s800->GetDta());
+---
+>   obj.FillHistogram(dirname,Form("DTA%s",hsuf.c_str()),1000,-0.5,0.5,s800->GetDta());
+322c322
+< //obj.FillHistogram(dirname,Form("YTA%s",hsuf.c_str()),1000,-50,50,s800->GetYta());
+---
+>   obj.FillHistogram(dirname,Form("YTA%s",hsuf.c_str()),1000,-50,50,s800->GetYta());
+324,326c324,326
+< //obj.FillHistogram(dirname,Form("YFP_v_BFP%s",hsuf.c_str()),
+< //		    1000,-0.1,0.1,s800->GetBFP(),
+< //		    600,-300,300,s800->GetYFP());
+---
+>   obj.FillHistogram(dirname,Form("YFP_v_BFP%s",hsuf.c_str()),
+>   		    1000,-0.1,0.1,s800->GetBFP(),
+>   		    600,-300,300,s800->GetYFP());
+328c328
+< //obj.FillHistogram(dirname,Form("Azita%s",hsuf.c_str()),400,-6.3,6.3,s800->Azita());
+---
+>   obj.FillHistogram(dirname,Form("Azita%s",hsuf.c_str()),400,-6.3,6.3,s800->Azita());
+330a331,346
+>   obj.FillHistogram(dirname,Form("XFP_v_Xfp-E1%s",hsuf.c_str()),
+> 		    600,-1200,-1000,s800->GetCorrTOF_XFP(),
+>                     600,-300,300,s800->GetXFP());
+> 
+>   obj.FillHistogram(dirname,Form("XFP_v_Xfp-E1_Uncorrected%s",hsuf.c_str()),
+> 		    600,-1250,-950,s800->GetXF_E1Raw(),
+>                     600,-300,300,s800->GetXFP());
+> 
+>   obj.FillHistogram(dirname,Form("AFP_v_Xfp-E1%s",hsuf.c_str()),
+> 		    400,-1200,-1000,s800->GetCorrTOF_XFP(),
+> 		    1000,-0.05,0.05,s800->GetAFP());
+> 
+>   obj.FillHistogram(dirname,Form("AFP_v_Xfp-E1_Uncorrected%s",hsuf.c_str()),
+> 		    400,-1250,-950,s800->GetXF_E1Raw(),
+>                     1000,-0.05,0.05,s800->GetAFP());
+> 
+748c764
+<     if(!outgoing->IsInside(s800->GetTof().GetXFP() - s800->GetTof().GetOBJ() + s800->GetCorrTOF_OBJ(),s800->GetIonChamber().Charge()))
+---
+>     if(!outgoing->IsInside(s800->GetCorrTOF_XFP(),s800->GetIonChamber().Charge()))
+923,925c939,941
+< //   for(size_t k=0;k<time_energy_cuts.size();k++) {
+< //     HandleGretina_Gated(obj,incoming_cuts.at(i),outgoing_cuts.at(j),time_energy_cuts.at(k),xToF_cuts.at(l));
+< //   } //end time_energy gate loop
+---
+>      for(size_t k=0;k<time_energy_cuts.size();k++) {
+>        HandleGretina_Gated(obj,incoming_cuts.at(i),outgoing_cuts.at(j),time_energy_cuts.at(k),xToF_cuts.at(l));
+>      } //end time_energy gate loop
