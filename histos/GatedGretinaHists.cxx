@@ -84,7 +84,6 @@ std::map<int,int> crysThetaMap = {{26,1}, {30,1}, {34,1}, {38,1}, {25,2}, {29,2}
 				  {68,8}, {76,8}, {62,9}, {70,9}, {78,9}, {56,10},{64,10},{57,11},{65,11},{61,12},{69,12},
 				  {77,12}};
 
-/*
 bool HandleTiming_Gated(TRuntimeObjects &obj, TCutG *incoming, TCutG* outgoing, TCutG* xToF) {
   TS800 *s800  = obj.GetDetector<TS800>();
   
@@ -93,6 +92,7 @@ bool HandleTiming_Gated(TRuntimeObjects &obj, TCutG *incoming, TCutG* outgoing, 
 
   std::string dirname = "Timing";
 
+/*
   //////////////////////////////////////////////////////////
   //incoming gates on Xfp - E1 vs. Object - E1 Uncorrected//
   //////////////////////////////////////////////////////////
@@ -121,7 +121,7 @@ bool HandleTiming_Gated(TRuntimeObjects &obj, TCutG *incoming, TCutG* outgoing, 
       {return false;}
     suf += Form("_%s",xToF->GetName());
   }
-
+*/
   //int E1UpSize = s800->GetTof().E1UpSize();
   //int XfpSize = s800->GetTof().XfpSize();
   //int ObjSize = s800->GetTof().ObjSize();
@@ -132,12 +132,19 @@ bool HandleTiming_Gated(TRuntimeObjects &obj, TCutG *incoming, TCutG* outgoing, 
 
   //obj.FillHistogram(dirname,Form("ObjSize%s",suf.c_str()),10,0,10,ObjSize);
 
-  obj.FillHistogram(dirname,Form("E1_raw%s",suf.c_str()),4000,0,64000,s800->GetTof().GetRF());
+  //obj.FillHistogram(dirname,Form("E1_raw%s",suf.c_str()),4000,0,64000,s800->GetTof().GetRF());
 
-  obj.FillHistogram(dirname,Form("Xfp_raw%s",suf.c_str()),4000,0,64000,s800->GetTof().GetXFP());
+  //obj.FillHistogram(dirname,Form("Xfp_raw%s",suf.c_str()),4000,0,64000,s800->GetTof().GetXFP());
 
-  obj.FillHistogram(dirname,Form("Obj_raw%s",suf.c_str()),4000,0,64000,s800->GetTof().GetOBJ());
+  //obj.FillHistogram(dirname,Form("Obj_raw%s",suf.c_str()),4000,0,64000,s800->GetTof().GetOBJ());
 
+  obj.FillHistogram(dirname,"E1_raw",4000,0,64000,s800->GetTof().GetRF());
+
+  obj.FillHistogram(dirname,"Xfp_raw",4000,0,64000,s800->GetTof().GetXFP());
+
+  obj.FillHistogram(dirname,"Obj_raw",4000,-100,64000,s800->GetTof().GetOBJ());
+
+/*
   obj.FillHistogram(dirname,Form("Xfp-E1%s",suf.c_str()),
 		    4000,-10000,10000,s800->MCorrelatedXFP_E1());
 
@@ -147,17 +154,23 @@ bool HandleTiming_Gated(TRuntimeObjects &obj, TCutG *incoming, TCutG* outgoing, 
   obj.FillHistogram(dirname,Form("Obj-Xfp%s",suf.c_str()),
 		    800,-5200,-4400,s800->MCorrelatedOBJ_E1() -
 		    s800->MCorrelatedXFP_E1());
-
   obj.FillHistogram(dirname,Form("Xfp-E1_raw%s",suf.c_str()),
                     4000,-10000,10000,s800->GetTof().GetXFP() - s800->GetTof().GetRF());
   
   obj.FillHistogram(dirname,Form("Obj-E1_raw%s",suf.c_str()),
                     4000,-10000,10000,s800->GetTof().GetOBJ() - s800->GetTof().GetRF());
 
+*/
+  obj.FillHistogram(dirname,"Xfp-E1_raw",
+                    4000,-10000,10000,s800->GetTof().GetXFP() - s800->GetTof().GetRF());
+  
+  obj.FillHistogram(dirname,"Obj-E1_raw",
+                    4000,-10000,10000,s800->GetTof().GetOBJ() - s800->GetTof().GetRF());
+
   return true;
 
 }
-*/
+
 bool HandleS800_Gated(TRuntimeObjects &obj,TCutG *incoming, TCutG* outgoing, TCutG* xToF) {
   TS800 *s800  = obj.GetDetector<TS800>();
   
@@ -865,7 +878,7 @@ void MakeHistograms(TRuntimeObjects& obj) {
    for(size_t j=0;j<outgoing_cuts.size();j++) {
     for(size_t l=0;l<xToF_cuts.size();l++) {
       //Gated_CS_Spectra(obj,incoming_cuts.at(i),outgoing_cuts.at(j),xToF_cuts.at(l));
-      //HandleTiming_Gated(obj,incoming_cuts.at(i),outgoing_cuts.at(j),xToF_cuts.at(l));
+      HandleTiming_Gated(obj,incoming_cuts.at(i),outgoing_cuts.at(j),xToF_cuts.at(l));
 //      HandleS800_Gated(obj,incoming_cuts.at(i),outgoing_cuts.at(j),xToF_cuts.at(l));
 //Loop over all time energy gates (within the loops for the other three types) and histogram Gretina results
      HandleS800_Gated(obj,incoming_cuts.at(i),outgoing_cuts.at(j),xToF_cuts.at(l));

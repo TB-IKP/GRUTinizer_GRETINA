@@ -239,8 +239,8 @@ bool HandleS800_Gated(TRuntimeObjects &obj,TCutG *incoming, TCutG* outgoing, TCu
                   1000,0,40000,s800->GetIonChamber().Charge());
 
   obj.FillHistogram(dirname,Form("Charge_v_Obj-E1%s",hsuf.c_str()),
-                  120,-2800,-2200,s800->GetMTofObjE1(),
-                  1000,20000,30000,s800->GetIonChamber().Charge());
+                  160,-2400,-1600,s800->GetMTofObjE1(),
+                  4000,0,40000,s800->GetIonChamber().Charge());
 
   obj.FillHistogram(dirname,Form("Charge_v_XToF-E1%s",hsuf.c_str()),
                   1000,-5000,5000,s800->GetMTofXfpE1(),
