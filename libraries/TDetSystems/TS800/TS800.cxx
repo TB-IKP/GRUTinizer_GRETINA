@@ -293,6 +293,8 @@ int TS800::BuildHits(std::vector<TRawEvent>& raw_data){
       case 0x58f0:
         HandleMTDCPacket(dptr+1,sizeleft);
 	break;
+      case 0x5805:
+	break;
       default:
 	fprintf(stderr,"unknown data S800 type: 0x%04x\n",*dptr);
 	return 0;
@@ -831,6 +833,21 @@ float TS800::GetTofE1_TAC(float c1,float c2)  const {
 
 }
 
+float TS800::GetTofXFPE1_TAC(float c1,float c2)  const {
+  /*if (GetCrdc(0).GetId() == -1) {
+    return sqrt(-1);
+    }*/
+  /*----------------*\
+  | AFP returns nan  |
+  | if both crdc's   |
+  | are not present  |
+  \*----------------*/
+
+  if(GetTof().GetTacXFP()>-1)
+    return GetTof().GetTacXFP() + c1 * GetAFP() + c2  * GetCrdc(0).GetDispersiveX();
+  return sqrt(-1);
+
+}
 
 float TS800::GetTofE1_TDC(float c1,float c2)  const {
   /*----------------*\
@@ -840,6 +857,17 @@ float TS800::GetTofE1_TDC(float c1,float c2)  const {
   \*----------------*/
   if(GetTof().GetOBJ()>-1)
     return GetTof().GetOBJ() - GetScint().GetTimeUp() + c1 * GetAFP() + c2  * GetCrdc(0).GetDispersiveX();
+  return sqrt(-1);
+}
+
+float TS800::GetTofXFP_E1_TDC(float c1,float c2)  const {
+  /*----------------*\
+  | AFP returns nan  |
+  | if both crdc's   |
+  | are not present  |
+  \*----------------*/
+  if(GetTof().GetXFP()>-1)
+    return GetTof().GetXFP() - GetScint().GetTimeUp() + c1 * GetAFP() + c2  * GetCrdc(0).GetDispersiveX();
   return sqrt(-1);
 }
 
@@ -956,12 +984,24 @@ float TS800::GetCorrTOF_OBJTAC() const {
 //std::cout << "TOF OBJTAC xfp COR" << xfp_cor << std::endl;
   return GetTofE1_TAC(afp_cor,xfp_cor);
 }
+float TS800::GetCorrTOF_XFPTAC() const {
+  double afp_cor = GValue::Value("XFPTAC_TOF_CORR_AFP");
+  double xfp_cor = GValue::Value("XFPTAC_TOF_CORR_XFP");
+//std::cout << "TOF OBJTAC AFP COR" << afp_cor << std::endl;
+//std::cout << "TOF OBJTAC xfp COR" << xfp_cor << std::endl;
+  return GetTofXFPE1_TAC(afp_cor,xfp_cor);
+}
 float TS800::GetCorrTOF_OBJ() const {
   double afp_cor = GValue::Value("OBJ_TOF_CORR_AFP");
   double xfp_cor = GValue::Value("OBJ_TOF_CORR_XFP");
   return GetTofE1_TDC(afp_cor,xfp_cor);
 }
 
+float TS800::GetCorrTOF_XFP() const {
+  double afp_cor = GValue::Value("XFP_TOF_CORR_AFP");
+  double xfp_cor = GValue::Value("XFP_TOF_CORR_XFP");
+  return GetTofXFP_E1_TDC(afp_cor,xfp_cor);
+}
 //std::vector<float> TS800::GetCorrTOF_OBJ_MESY() const {
 float TS800::GetCorrTOF_OBJ_MESY(int i) const {
   //static double f_afp_cor = GValue::Value("OBJ_MTOF_CORR_AFP");
